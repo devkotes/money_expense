@@ -51,14 +51,19 @@ class ItemCard extends StatelessWidget {
                   SizedBox(
                     width: 14,
                   ),
-                  Text(
-                    data.title,
-                    style: paragraphMedium.copyWith(color: blackColor),
+                  Container(
+                    width: 180,
+                    child: Text(
+                      data.title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: paragraphMedium.copyWith(color: blackColor),
+                    ),
                   )
                 ],
               ),
               Text(
-                NumberFormat.currency(
+                NumberFormat.compactCurrency(
                         symbol: 'Rp. ', decimalDigits: 0, locale: 'id-ID')
                     .format(data.amount),
                 style: paragraphSemiBold.copyWith(color: blackColor),

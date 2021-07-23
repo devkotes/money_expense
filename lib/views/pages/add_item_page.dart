@@ -14,9 +14,9 @@ class _AddItemPageState extends State<AddItemPage> {
   DateTime selectedDate = DateTime.now();
   String prefixIcon = '';
   int colorSelected = 0;
-  bool _enableBtn = false;
+  bool enableBtn = false;
 
-  final _transactionBloc = TransactionBloc();
+  final transactionBloc = TransactionBloc();
 
   @override
   void initState() {
@@ -38,16 +38,20 @@ class _AddItemPageState extends State<AddItemPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _transactionBloc,
+      create: (context) => transactionBloc,
       child: Scaffold(
         body: BlocListener<TransactionBloc, TransactionState>(
           listener: (context, state) {
             if (state is SubmitTransactionSuccess) {
-              print('success');
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: blueColor,
+                  content: Text('Berhasil menyimpan data.')));
               Navigator.pop(context, true);
             }
             if (state is SubmitTransactionError) {
-              print(state.msg);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content:
+                      Text('Gagal menyimpan data. Silahkan mencoba kembali')));
             }
           },
           child: SafeArea(
@@ -58,7 +62,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   if (titleController.text != '' &&
                       amountController.text != '' &&
                       dateController.text != '') {
-                    _enableBtn = true;
+                    enableBtn = true;
                   }
                 });
               },
@@ -102,9 +106,6 @@ class _AddItemPageState extends State<AddItemPage> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
-                        // validator: (name) => name != null && name.isEmpty
-                        //     ? 'Masukan Nama Pengeluaran'
-                        //     : null,
                         controller: titleController,
                         style: paragraphMedium.copyWith(color: blackColor),
                         decoration: InputDecoration(
@@ -250,7 +251,7 @@ class _AddItemPageState extends State<AddItemPage> {
                         height: 50,
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
-                          onPressed: (_enableBtn)
+                          onPressed: (enableBtn)
                               ? () async {
                                   final title = titleController.text;
                                   final amount =
@@ -259,13 +260,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                   final category =
                                       categoryController.text.toLowerCase();
                                   final date = selectedDate;
-
-                                  print("TEsting");
-                                  print(title);
-                                  print(category);
-                                  print(amount);
-                                  print(date);
-                                  _transactionBloc.add(SubmitTransaction(
+                                  transactionBloc.add(SubmitTransaction(
                                       title, category, amount, date));
                                 }
                               : null,

@@ -56,7 +56,7 @@ class CategoryCard extends StatelessWidget {
               height: 8,
             ),
             Text(
-              NumberFormat.currency(
+              NumberFormat.compactCurrency(
                       symbol: 'Rp. ', decimalDigits: 0, locale: 'id-ID')
                   .format(amount),
               style: captionBold.copyWith(color: blackColor),

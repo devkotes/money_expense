@@ -83,7 +83,7 @@ Widget icBasketBall = Center(
     width: 24,
     child: Image.asset(
       'assets/ic_basketball.png',
-      color: secondPurpleColor,
+      color: secondBlueColor,
     ),
   ),
 );
@@ -98,10 +98,3 @@ Widget icClapper = Center(
     ),
   ),
 );
-
-convertDate(DateTime date) {
-  DateFormat dateFormat = DateFormat('dd MMMM yyyy');
-  var convert = dateFormat.format(date);
-
-  return convert;
-}

@@ -33,7 +33,8 @@ class _HomePageState extends State<HomePage> {
           }
 
           if (state is TransactionError) {
-            print(state.msg);
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Gagal mengambil data.')));
           }
 
           return Container();
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
             0, (previousValue, element) => previousValue + element.amount);
 
     final expenseSport = transactions
-        .where((element) => element.categories == 'olaharaga')
+        .where((element) => element.categories == 'olahraga')
         .toList()
         .fold<double>(
             0, (previousValue, element) => previousValue + element.amount);
@@ -131,189 +132,202 @@ class _HomePageState extends State<HomePage> {
         .fold<double>(
             0, (previousValue, element) => previousValue + element.amount);
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Halo, User!',
-              style: bigTitle.copyWith(color: blackColor),
+    return RefreshIndicator(
+      onRefresh: () async {
+        _transactionBloc.add(TransactionInit());
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 20,
             ),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Jangan lupa catat keuanganmu setiap hari!',
-              style: paragraphMedium.copyWith(color: greyColor),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'Halo, User!',
+                style: bigTitle.copyWith(color: blackColor),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 158,
-                  height: 97,
-                  padding: EdgeInsets.fromLTRB(14, 14, 14, 10),
-                  decoration: BoxDecoration(
-                      color: blueColor,
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pengeluaranmu\nhari ini',
-                        style: paragraphSemiBold.copyWith(color: whiteColor),
-                      ),
-                      SizedBox(
-                        height: 14,
-                      ),
-                      Text(
-                        NumberFormat.currency(
-                                symbol: 'Rp. ',
-                                decimalDigits: 0,
-                                locale: 'id-ID')
-                            .format(expenseToday),
-                        style: bigTitle.copyWith(color: whiteColor),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 158,
-                  height: 97,
-                  padding: EdgeInsets.fromLTRB(14, 14, 14, 10),
-                  decoration: BoxDecoration(
-                      color: tealColor,
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pengeluaranmu\nbulan ini',
-                        style: paragraphSemiBold.copyWith(color: whiteColor),
-                      ),
-                      SizedBox(
-                        height: 14,
-                      ),
-                      Text(
-                        NumberFormat.currency(
-                                symbol: 'Rp. ',
-                                decimalDigits: 0,
-                                locale: 'id-ID')
-                            .format(expenseMonthly),
-                        style: bigTitle.copyWith(color: whiteColor),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+            SizedBox(
+              height: 4,
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Pengeluaran berdasarkan katergori',
-              style: paragraphBold.copyWith(color: blackColor),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'Jangan lupa catat keuanganmu setiap hari!',
+                style: paragraphMedium.copyWith(color: greyColor),
+              ),
             ),
-          ),
-          Container(
-            height: 150,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
-                  children: byCategories
-                      .map((e) => CategoryCard(
-                            data: e,
-                            amount: (byCategories.indexOf(e) == 0)
-                                ? expenseFood
-                                : (byCategories.indexOf(e) == 1)
-                                    ? expenseInternet
-                                    : (byCategories.indexOf(e) == 2)
-                                        ? expenseEducation
-                                        : (byCategories.indexOf(e) == 3)
-                                            ? expenseGift
-                                            : (byCategories.indexOf(e) == 4)
-                                                ? expenseTransport
-                                                : (byCategories.indexOf(e) == 5)
-                                                    ? expenseShop
-                                                    : (byCategories
-                                                                .indexOf(e) ==
-                                                            6)
-                                                        ? expenseHome
-                                                        : (byCategories.indexOf(
-                                                                    e) ==
-                                                                7)
-                                                            ? expenseSport
-                                                            : expenseEntertain,
-                            isLast: (byCategories.indexOf(e) ==
-                                    byCategories.length - 1)
-                                ? true
-                                : false,
-                          ))
-                      .toList()),
-            ),
-          ),
-          (listMonth.length > 0)
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: GroupedListView<Transaction, String>(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    primary: false,
-                    elements: listMonth,
-                    groupBy: (Transaction trx) {
-                      return convertDate(trx.createdAt);
-                    },
-                    groupSeparatorBuilder: (String groupByValue) => Padding(
-                      padding: const EdgeInsets.only(top: 28),
-                      child: Text(groupByValue),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 158,
+                    height: 97,
+                    padding: EdgeInsets.fromLTRB(14, 14, 14, 10),
+                    decoration: BoxDecoration(
+                        color: blueColor,
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pengeluaranmu\nhari ini',
+                          style: paragraphSemiBold.copyWith(color: whiteColor),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Text(
+                          NumberFormat.compactCurrency(
+                                  symbol: 'Rp. ',
+                                  decimalDigits: 0,
+                                  locale: 'id-ID')
+                              .format(expenseToday),
+                          style: bigTitle.copyWith(color: whiteColor),
+                        )
+                      ],
                     ),
-                    itemBuilder: (context, Transaction trx) =>
-                        ItemCard(data: trx),
-                    itemComparator: (item1, item2) =>
-                        item1.createdAt.compareTo(item2.createdAt),
-                    order: GroupedListOrder.DESC,
                   ),
-                )
-              : Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Container(
-                          height: 200,
-                          width: 200,
-                          child: Lottie.asset('assets/json/empty.json')),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        'Belum Ada Transaksi Bulan Ini',
-                        style: paragraphSemiBold.copyWith(
-                            color: blackColor, fontSize: 16),
-                      ),
-                    ],
+                  Container(
+                    width: 158,
+                    height: 97,
+                    padding: EdgeInsets.fromLTRB(14, 14, 14, 10),
+                    decoration: BoxDecoration(
+                        color: tealColor,
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pengeluaranmu\nbulan ini',
+                          style: paragraphSemiBold.copyWith(color: whiteColor),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Text(
+                          NumberFormat.compactCurrency(
+                                  symbol: 'Rp. ',
+                                  decimalDigits: 0,
+                                  locale: 'id-ID')
+                              .format(expenseMonthly),
+                          style: bigTitle.copyWith(color: whiteColor),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-        ],
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'Pengeluaran berdasarkan katergori',
+                style: paragraphBold.copyWith(color: blackColor),
+              ),
+            ),
+            Container(
+              height: 150,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    children: categories
+                        .map((e) => CategoryCard(
+                              data: e,
+                              amount: (categories.indexOf(e) == 0)
+                                  ? expenseFood
+                                  : (categories.indexOf(e) == 1)
+                                      ? expenseInternet
+                                      : (categories.indexOf(e) == 2)
+                                          ? expenseEducation
+                                          : (categories.indexOf(e) == 3)
+                                              ? expenseGift
+                                              : (categories.indexOf(e) == 4)
+                                                  ? expenseTransport
+                                                  : (categories.indexOf(e) == 5)
+                                                      ? expenseShop
+                                                      : (categories
+                                                                  .indexOf(e) ==
+                                                              6)
+                                                          ? expenseHome
+                                                          : (categories.indexOf(
+                                                                      e) ==
+                                                                  7)
+                                                              ? expenseSport
+                                                              : expenseEntertain,
+                              isLast: (categories.indexOf(e) ==
+                                      categories.length - 1)
+                                  ? true
+                                  : false,
+                            ))
+                        .toList()),
+              ),
+            ),
+            (listMonth.length > 0)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: GroupedListView<Transaction, String>(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      primary: false,
+                      elements: listMonth,
+                      groupBy: (Transaction trx) {
+                        return convertDate(trx.createdAt);
+                      },
+                      groupSeparatorBuilder: (String groupByValue) => Padding(
+                        padding: const EdgeInsets.only(top: 28),
+                        child: Text(groupByValue,
+                            style: paragraphBold.copyWith(color: blackColor)),
+                      ),
+                      itemBuilder: (context, Transaction trx) =>
+                          ItemCard(data: trx),
+                      itemComparator: (item1, item2) =>
+                          item1.createdAt.compareTo(item2.createdAt),
+                      order: GroupedListOrder.DESC,
+                    ),
+                  )
+                : Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 24,
+                        ),
+                        Container(
+                            height: 200,
+                            width: 200,
+                            child: Lottie.asset('assets/json/empty.json')),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          'Belum Ada Transaksi Bulan Ini',
+                          style: paragraphSemiBold.copyWith(
+                              color: blackColor, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
+  }
+
+  convertDate(DateTime date) {
+    DateFormat dateFormat = DateFormat('dd MMMM yyyy');
+    var convert = dateFormat.format(date);
+
+    return convert;
   }
 }
