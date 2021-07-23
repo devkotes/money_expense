@@ -3,8 +3,9 @@ part of 'widgets.dart';
 class CategoryCard extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool isLast;
+  final double amount;
 
-  CategoryCard({this.data, this.isLast});
+  CategoryCard({this.data, this.isLast, this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class CategoryCard extends StatelessWidget {
             Text(
               NumberFormat.currency(
                       symbol: 'Rp. ', decimalDigits: 0, locale: 'id-ID')
-                  .format(data['total']),
+                  .format(amount),
               style: captionBold.copyWith(color: blackColor),
             ),
           ],

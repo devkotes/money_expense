@@ -94,7 +94,7 @@ Widget icClapper = Center(
     width: 24,
     child: Image.asset(
       'assets/ic_clapper.png',
-      color: secondPurpleColor,
+      color: secondBlueColor,
     ),
   ),
 );

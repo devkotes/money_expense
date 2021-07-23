@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 Color whiteColor = Color(0xffffffff);
 Color blackColor = Color(0xff333333);
@@ -30,3 +31,7 @@ TextStyle captionMedium =
     GoogleFonts.sourceSansPro(fontSize: 12, fontWeight: FontWeight.w400);
 TextStyle captionBold =
     GoogleFonts.sourceSansPro(fontSize: 14, fontWeight: FontWeight.w700);
+
+DateTime now = new DateTime.now();
+DateFormat dailyFormat = DateFormat('dd MMMM yyyy');
+DateFormat monthlyFormat = DateFormat('MMMM yyyy');
