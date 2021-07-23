@@ -22,7 +22,7 @@ samples, guidance on mobile development, and a full API reference.
 
 > Apa saja library flutter yang sering atau biasa anda pakai? Jelaskan kegunaannya bagi anda
 > - ***google_fonts : Memudahkan dalam developer sebuah aplikasi. Bisa digunakan tanpa harus mendownload font yang dibutuhkan dan lebih efisien***
-> - ***google_fonts : flutter_svg : Agar asset tidak pecah / low resolusi***
+> - ***flutter_svg : Agar asset tidak pecah / low resolusi***
 > - ***intl : digunakan untuk membuat format sesuai kebutuhan***
 > - ***lottie : agar UI menjadi lebih menarik dan sangat beragam jenisnya termasuk ada yg gratisnya juga.***
 > - ***shimmer : saya sering menggunakan library ini untuk membuat sebuah loading menjadi lebih menarik***
