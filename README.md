@@ -39,3 +39,8 @@ samples, guidance on mobile development, and a full API reference.
 > Jelaskan teknik-teknik apa saja yang dapat meningkatkan performance dan keamanan sebuah aplikasi Flutter
 > - ***Hapus penyimpanan cache***
 > - ***Penggunaan API dari backend untuk pengolahan data agar lebih aman dikarenakan dari backend biasanya sudah membuat token khusus untuk aplikasi mobile***
+
+
+## Install App
+
+- [Disini](https://drive.google.com/drive/folders/11Xzyt_SQGI4BM-6a1tWGfIHhQnEjqyaq?usp=sharing)
