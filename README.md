@@ -18,7 +18,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Knowledge & Experience Questions
 > Sudah berapa lama anda mulai menggunakan Flutter?
-> ***Lebih Dari 3 Tahun***
+> - ***Lebih Dari 3 Tahun***
 
 > Apa saja library flutter yang sering atau biasa anda pakai? Jelaskan kegunaannya bagi anda
 > - ***google_fonts : Memudahkan dalam developer sebuah aplikasi. Bisa digunakan tanpa harus mendownload font yang dibutuhkan dan lebih efisien***
@@ -34,7 +34,7 @@ samples, guidance on mobile development, and a full API reference.
 > - ***Hapus code yang tidak digunakan***
 
 > Apakah tantangan terbesar yang pernah anda temui dalam mengerjakan aplikasi Flutter dan bagaimana anda menyelesaikannya dari sisi engineering? Misal dari Android dan IOS
-> ***Ketika harus membuat tampilan yang responsive untuk berbagai jenis layar,  masih belum sesuai dengan yang diharapkan. Solusinya menggunakan MediaQuery***
+> - ***Ketika harus membuat tampilan yang responsive untuk berbagai jenis layar,  masih belum sesuai dengan yang diharapkan. Solusinya menggunakan MediaQuery***
 
 > Jelaskan teknik-teknik apa saja yang dapat meningkatkan performance dan keamanan sebuah aplikasi Flutter
 > - ***Hapus penyimpanan cache***
